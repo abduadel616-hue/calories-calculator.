@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>حاسبة السعرات الحرارية</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #0d0d0d; /* خلفية مظلمة */
+        text-align: center;
+        padding: 20px;
+        direction: rtl;
+        color: white;
+    }
+    .calculator {
+        background: #1a1a1a; /* لون صندوق أغمق */
+        padding: 20px;
+        border-radius: 10px;
+        width: 300px;
+        margin: auto;
+        box-shadow: 0 0 20px yellow; /* ظل مشع أصفر حول القالب */
+        border: 2px solid yellow; /* إطار أصفر */
+        animation: glow 1.5s infinite alternate;
+    }
+    input, select, button {
+        width: 90%;
+        padding: 8px;
+        margin: 5px 0;
+        border: 1px solid yellow;
+        border-radius: 5px;
+        background: #262626;
+        color: white;
+        box-shadow: 0 0 10px yellow;
+    }
+    button {
+        background: yellow;
+        color: black;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+        box-shadow: 0 0 15px yellow;
+    }
+    button:hover {
+        background: #ffea00;
+        box-shadow: 0 0 25px yellow;
+    }
+    @keyframes glow {
+        from { box-shadow: 0 0 10px yellow; }
+        to { box-shadow: 0 0 25px yellow; }
+    }
+</style>
+</head>
+<body>
+
+<h2>💡 حاسبة السعرات الحرارية اليومية</h2>
+<div class="calculator">
+    <label>الوزن (كجم):</label>
+    <input type="number" id="weight" placeholder="أدخل وزنك" step="0.1">
+    
+    <label>الطول (سم):</label>
+    <input type="number" id="height" placeholder="أدخل طولك" step="0.1">
+    
+    <label>العمر (سنة):</label>
+    <input type="number" id="age" placeholder="أدخل عمرك">
+    
+    <label>الجنس:</label>
+    <select id="gender">
+        <option value="male">ذكر</option>
+        <option value="female">أنثى</option>
+    </select>
+    
+    <label>مستوى النشاط:</label>
+    <select id="activity">
+        <option value="1.2">خمول تام</option>
+        <option value="1.375">نشاط خفيف (1-3 أيام بالأسبوع)</option>
+        <option value="1.55">نشاط متوسط (3-5 أيام)</option>
+        <option value="1.725">نشاط عالي (6-7 أيام)</option>
+        <option value="1.9">نشاط شديد جدًا</option>
+    </select>
+    
+    <button onclick="calculateCalories()">احسب</button>
+    
+    <h3 id="result"></h3>
+</div>
+
+<script>
+function calculateCalories() {
+    let weight = parseFloat(document.getElementById("weight").value);
+    let height = parseFloat(document.getElementById("height").value);
+    let age = parseFloat(document.getElementById("age").value);
+    let gender = document.getElementById("gender").value;
+    let activity = parseFloat(document.getElementById("activity").value);
+
+    if (isNaN(weight) || isNaN(height) || isNaN(age)) {
+        document.getElementById("result").innerHTML = "⚠️ يرجى إدخال جميع القيم بشكل صحيح";
+        return;
+    }
+
+    let bmr;
+    if (gender === "male") {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+    } else {
+        bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+    }
+
+    let tdee = bmr * activity;
+    document.getElementById("result").innerHTML = 
+        `💪 احتياجك اليومي للسعرات هو: <strong>${tdee.toFixed(0)}</strong> سعرة حرارية`;
+}
+</script>
+
+</body>
+</html>
